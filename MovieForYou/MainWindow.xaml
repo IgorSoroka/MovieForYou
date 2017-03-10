@@ -7,7 +7,7 @@
         xmlns:dyagnost="clr-namespace:System.Diagnostics;assembly=mscorlib"
         xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="500">
+        Title="MainWindow" Height="850" Width="600">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,8 +15,68 @@
             </ResourceDictionary.MergedDictionaries>            
         </ResourceDictionary>
     </Window.Resources>
-    <DockPanel>
-        <ListBox x:Name="lbMain" Width="300"></ListBox>
-        <Button Click="Button_Click">Button</Button>
-    </DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Image x:Name="imgMain"/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
+                <Label>Сюжет</Label>
+                <TextBlock TextWrapping="WrapWithOverflow" Width="550" FontSize="14" Text="{Binding Path = Overview}"/>
+                <ListBox x:Name="lbCrew">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <!--<Image Height="30" Width="30"/>-->
+                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
+                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Label>В главных ролях</Label>
+            <ListBox x:Name="lbCast">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <!--<Image Height="30" Width="30"/>-->
+                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
+                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+            <Label FontSize="12">О фильме</Label>
+            <Label FontSize="10">Оригинальное название</Label>
+            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = OriginalTitle}"/>
+            <Label FontSize="10">Бюджет</Label>
+            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Budget}"/>
+            <Label FontSize="10">Домашняя страница</Label>
+            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = HomePage}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3">
+            <Button Click="Button_Click">Поиск</Button>
+            <TextBox x:Name="tbSearch"></TextBox>
+        </StackPanel>
+    </Grid>
 </Window>

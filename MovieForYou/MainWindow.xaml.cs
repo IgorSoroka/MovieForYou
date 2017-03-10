@@ -37,18 +37,62 @@ namespace MovieForYou
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            var movie = await first.Movies.GetAsync(100, null, true, token);
+            var mediacredit = await first.Movies.GetCreditsAsync(100, token);           
 
-            var movies = await first.Movies.GetUpcomingAsync(null, 1, token);
+            IEnumerable<MediaCrew> crew = mediacredit.OfType<MediaCrew>();
 
-            foreach (Movie m in movies.Results)
+            foreach (var item in crew)
             {
-                var movie = await first.Movies.GetAsync(m.Id, null, true, token);
-
-                firstcoll.Add(movie.Title);
+                if (!string.IsNullOrEmpty(item.Profile))
+                {
+                    string filepath = System.IO.Path.Combine("Pictures", item.Profile.TrimStart('/'));
+                    await DownloadImage(item.Profile, filepath, token);
+                }
             }
 
-            lbMain.ItemsSource = firstcoll;
-            //проверка коммита
+            string path = System.IO.Path.Combine("Pictures", movie.Poster.TrimStart('/'));
+            await DownloadImage(movie.Poster, path, token);
+
+            //BitmapImage logo = new BitmapImage();
+
+            //string one = string.Join("Picture", many);
+
+            //logo.BeginInit();
+            //logo.UriSource = new Uri(path);
+            //logo.EndInit();
+
+            //imgMain.Source = logo;
+
+            //imgMain.Source = path;
+
+            lbCast.ItemsSource = mediacredit.Take(5);
+            lbCrew.ItemsSource = crew;
+
+            this.DataContext = movie;
         }
-    }
+
+        static async Task DownloadImage(string filename, string localpath, CancellationToken cancellationToken)
+        {            
+                if (!File.Exists(localpath))
+                    {
+                        string folder = System.IO.Path.GetDirectoryName(localpath);
+                        Directory.CreateDirectory(folder);
+
+                        var storage = new StorageClient();
+                        using (var fileStream = new FileStream(localpath, FileMode.Create, FileAccess.Write, FileShare.None, short.MaxValue, true))
+                        {
+                            try
+                            {
+                                await storage.DownloadAsync(filename, fileStream, cancellationToken);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Trace.TraceError(ex.ToString());
+                            }
+                        }
+                    }
+            }            
+     }        
 }
+
