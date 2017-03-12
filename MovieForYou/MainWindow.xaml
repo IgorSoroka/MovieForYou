@@ -23,11 +23,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Image x:Name="imgMain"/>
+            <Image x:Name="imgMain" Width="150" Height="150"/>
             <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
                 <Label>Сюжет</Label>
-                <TextBlock TextWrapping="WrapWithOverflow" Width="550" FontSize="14" Text="{Binding Path = Overview}"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Overview}"/>
                 <ListBox x:Name="lbCrew">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -37,7 +37,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
-                                <!--<Image Height="30" Width="30"/>-->
+                                <Image Height="40" Width="40" Source="{Binding Path = Path}"/>
                                 <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
                                 <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
                             </StackPanel>
@@ -57,7 +57,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <!--<Image Height="30" Width="30"/>-->
+                            <Image Height="70" Width="70" Source="{Binding Path = Path}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
                         </StackPanel>

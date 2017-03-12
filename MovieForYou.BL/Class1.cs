@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieForYou.DAL
+namespace MovieForYou.BL
 {
     public class Class1
     {
-
     }
 }

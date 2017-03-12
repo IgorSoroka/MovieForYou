@@ -119,6 +119,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MovieForYou.BL\MovieForYou.BL.csproj">
+      <Project>{1b961480-e30d-4a4c-911b-bf4853cbadd6}</Project>
+      <Name>MovieForYou.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieForYou.DAL\MovieForYou.Data.csproj">
+      <Project>{f0f4b509-4415-4f0c-b220-6869d2bd0e33}</Project>
+      <Name>MovieForYou.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
