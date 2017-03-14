@@ -6,30 +6,58 @@
         xmlns:local="clr-namespace:MovieForYou.Views"
         mc:Ignorable="d"
         Title="MovieView" Height="600" Width="600">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Image x:Name="imgMain" Height="100" Width="70" Source="{Binding Path=Poster}"/>
+            <Image x:Name="imgMain" Width="150" Height="150"/>
             <StackPanel Orientation="Vertical">
-                <TextBlock HorizontalAlignment="Center" FontSize="14" Text="{Binding Path = Title}"/>
+                <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
                 <Label>Сюжет</Label>
-                <TextBlock FontSize="14"/>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Overview}"/>
+                <ListBox x:Name="lbCrew">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Image Height="40" Width="40" Source="{Binding Path = Path}"/>
+                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
+                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Label>В главных ролях</Label>
-            <ListBox>
+            <ListBox x:Name="lbCast">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <Image Height="50" Width="50"/>
-                            <TextBlock Margin="3" FontSize="14"/>
-                            <TextBlock Margin="3" FontSize="14"/>
+                            <Image Height="70" Width="70" Source="{Binding Path = Path}"/>
+                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
+                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -40,14 +68,13 @@
             <Label FontSize="10">Оригинальное название</Label>
             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = OriginalTitle}"/>
             <Label FontSize="10">Бюджет</Label>
-            <TextBlock Margin="3" FontSize="12"/>
+            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Budget}"/>
             <Label FontSize="10">Домашняя страница</Label>
             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = HomePage}"/>
         </StackPanel>
         <StackPanel Grid.Row="3">
             <Button Click="Button_Click">Поиск</Button>
             <TextBox x:Name="tbSearch"></TextBox>
-        </StackPanel>        
+        </StackPanel>
     </Grid>
-    
 </Window>

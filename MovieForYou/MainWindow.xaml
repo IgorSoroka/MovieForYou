@@ -7,76 +7,95 @@
         xmlns:dyagnost="clr-namespace:System.Diagnostics;assembly=mscorlib"
         xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="850" Width="600">
+        Title="MainWindow" Height="500" Width="600">
+    <Window.DataContext>
+        <local:MovieForYouViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>            
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal">
-            <Image x:Name="imgMain" Width="150" Height="150"/>
-            <StackPanel Orientation="Vertical">
-                <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
-                <Label>Сюжет</Label>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Overview}"/>
-                <ListBox x:Name="lbCrew">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical">
-                                <Image Height="40" Width="40" Source="{Binding Path = Path}"/>
-                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
-                                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="1">
-            <Label>В главных ролях</Label>
-            <ListBox x:Name="lbCast">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
+
+        <ribbon:Ribbon >
+            <ribbon:Ribbon.ApplicationMenu>
+                <ribbon:RibbonApplicationMenu>
+                    <ribbon:RibbonApplicationMenuItem Header="Свернуть" x:Name="MenuItemMin"/>
+                    <ribbon:RibbonApplicationMenuItem Header="Развернуть" x:Name="MenuItemOpen"/>
+                    <ribbon:RibbonApplicationMenuItem Header="Закрыть" x:Name="MenuItemClose"/>
+                </ribbon:RibbonApplicationMenu>
+            </ribbon:Ribbon.ApplicationMenu>
+
+            <ribbon:RibbonTab Header="Популярные">
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Command="{Binding Path=ShowPopFilms}"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab Header="Новинки">
+                <ribbon:RibbonGroup Header="">
+                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab Header="Идущие сейчас">
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab Header="Поиск">
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Найти фильм или сериал" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Найти актера" HorizontalAlignment="Center"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+            <ribbon:RibbonTab Header="Справка">
+                <ribbon:RibbonGroup Header="Информация">
+                    <ribbon:RibbonButton Label="О разработчике"/>
+                    <ribbon:RibbonButton Label="О программе"/>
+                </ribbon:RibbonGroup>
+            </ribbon:RibbonTab>
+        </ribbon:Ribbon>
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding Path=Movies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Image Source="{Binding Path=Poster}" Height="100" Width="100"/>
                         <StackPanel Orientation="Vertical">
-                            <Image Height="70" Width="70" Source="{Binding Path = Path}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="14"/>
+                                <TextBlock Text="{Binding Path = ReleaseDate}" Margin="3" FontSize="14"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Path = OriginalTitle}" Margin="3" FontSize="14"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"></ColumnDefinition>
+                                    <ColumnDefinition Width="200"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Path = VoteAverage}" Margin="3" FontSize="14"/>
+                                <Button Grid.Column="1" FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowFilms}" ></Button>
+                            </Grid>
                         </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-        <StackPanel Grid.Row="2">
-            <Label FontSize="12">О фильме</Label>
-            <Label FontSize="10">Оригинальное название</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = OriginalTitle}"/>
-            <Label FontSize="10">Бюджет</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Budget}"/>
-            <Label FontSize="10">Домашняя страница</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = HomePage}"/>
-        </StackPanel>
-        <StackPanel Grid.Row="3">
-            <Button Click="Button_Click">Поиск</Button>
-            <TextBox x:Name="tbSearch"></TextBox>
-        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

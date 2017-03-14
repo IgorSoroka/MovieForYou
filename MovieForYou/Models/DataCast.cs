@@ -4,27 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MovieForYou.DAL
+namespace MovieForYou
 {
-    public class DataCrew
+    public class DataCast
     {
-        public DataCrew() { }
+        public DataCast() { }
 
-        public DataCrew(string CreditId, int Id, string Name, string Profile, string Department, string Job)
+        public DataCast(string CreditId, int Id, string Name, string Profile, string Character)
         {
             this.CreditId = CreditId;
             this.Id = Id;
             this.Name = Name;
             this.Path = Profile;
-            this.Department = Department;
-            this.Job = Job;
+            this.Character = Character;
         }
 
         public string CreditId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }
-        public string Department { get; set; }
-        public string Job { get; set; }
+        public string Character { get; set; }
     }
 }

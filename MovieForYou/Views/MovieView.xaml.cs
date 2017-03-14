@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.TMDb;
 using System.Text;
@@ -32,19 +33,30 @@ namespace MovieForYou.Views
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var movie = await first.Movies.GetAsync(100, null, true, token);
+            //var movie = await first.Movies.GetAsync(100, null, true, token);
+            //var mediacredit = await first.Movies.GetCreditsAsync(100, token);
 
-            this.DataContext = movie;
+            ////просто скачиваем и ставим в экран постер для проверки работы
+            //string path = System.IO.Path.Combine("Pictures", movie.Poster.TrimStart('/'));
+            //await DownloadImage(movie.Poster, path, token);
+            //BitmapImage myBitmapImage = new BitmapImage();
+            //myBitmapImage.BeginInit();
+            //myBitmapImage.UriSource = new Uri(@"D:\Курсы\MovieForYou\MovieForYou\bin\Debug\Pictures\qV7QaSf7f7yC2lc985zfyOJIAIN.jpg"); ;
+            //myBitmapImage.EndInit();
 
-            //foreach (Movie m in movies.Results)
-            //{
-            //    var movie = await first.Movies.GetAsync(m.Id, null, true, token);
+            ////переводим команду и актеров фильма в списки соответствующих объектов классов DataCrew и DataCast из DATA для привязки
+            //IEnumerable<MediaCrew> crew = mediacredit.OfType<MediaCrew>();
+            //List<DataCrew> datacrew = ConvertToDataCrew(crew);
+            //IEnumerable<MediaCast> cast = (mediacredit.OfType<MediaCast>()).Take(5);
+            //List<DataCast> datacast = ConvertToDataCast(cast);
+            ////скачиваем и сохраняем фото актеров и команды
+            //await CastDownloader(cast);
+            //await CrewDownloader(crew);
 
-            //    firstcoll.Add(movie.Title);
-            //}
-
-            //lbMain.ItemsSource = firstcoll;
-            //проверка коммита
+            //imgMain.Source = myBitmapImage;
+            //lbCast.ItemsSource = datacast;
+            //lbCrew.ItemsSource = datacrew;
+            //this.DataContext = movie;
         }
     }
 }

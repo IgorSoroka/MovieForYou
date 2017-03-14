@@ -67,6 +67,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\RelayCommannd.cs" />
+    <Compile Include="Infrastructure\ViewModelBase.cs" />
+    <Compile Include="Models\DataCast.cs" />
+    <Compile Include="Models\DataCrew.cs" />
+    <Compile Include="Models\FullDataMovie.cs" />
+    <Compile Include="Models\GetData.cs" />
+    <Compile Include="Models\MainDataMovie.cs" />
+    <Compile Include="ViewModels\MovieForYouViewModel.cs" />
     <Compile Include="Views\MovieView.xaml.cs">
       <DependentUpon>MovieView.xaml</DependentUpon>
     </Compile>
@@ -119,16 +127,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MovieForYou.BL\MovieForYou.BL.csproj">
-      <Project>{1b961480-e30d-4a4c-911b-bf4853cbadd6}</Project>
-      <Name>MovieForYou.BL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MovieForYou.DAL\MovieForYou.Data.csproj">
-      <Project>{f0f4b509-4415-4f0c-b220-6869d2bd0e33}</Project>
-      <Name>MovieForYou.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
