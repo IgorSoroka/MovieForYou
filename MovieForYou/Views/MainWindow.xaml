@@ -1,27 +1,21 @@
-﻿<Window x:Class="MovieForYou.MainWindow"
+﻿<Window x:Class="MovieForYou.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MovieForYou"
-        xmlns:dyagnost="clr-namespace:System.Diagnostics;assembly=mscorlib"
         xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
+        xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="600">
+        Title="MainWindow" Height="700" Width="700">
     <Window.DataContext>
         <local:MovieForYouViewModel/>
     </Window.DataContext>
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Dictionary.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <ribbon:Ribbon >
@@ -35,7 +29,7 @@
 
             <ribbon:RibbonTab Header="Популярные">
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Command="{Binding Path=ShowPopFilms}"/>
+                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowPopFilms}"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
                     <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
@@ -43,10 +37,10 @@
             </ribbon:RibbonTab>
             <ribbon:RibbonTab Header="Новинки">
                 <ribbon:RibbonGroup Header="">
-                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Click="RibbonButton1_Click"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center" />
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
             <ribbon:RibbonTab Header="Идущие сейчас">
@@ -73,29 +67,9 @@
             </ribbon:RibbonTab>
         </ribbon:Ribbon>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding Path=Movies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Image Source="{Binding Path=Poster}" Height="100" Width="100"/>
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="14"/>
-                                <TextBlock Text="{Binding Path = ReleaseDate}" Margin="3" FontSize="14"/>
-                            </StackPanel>
-                            <TextBlock Text="{Binding Path = OriginalTitle}" Margin="3" FontSize="14"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100"></ColumnDefinition>
-                                    <ColumnDefinition Width="200"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{Binding Path = VoteAverage}" Margin="3" FontSize="14"/>
-                                <Button Grid.Column="1" FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowFilms}" ></Button>
-                            </Grid>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
+        <StackPanel Grid.Row="2">
+            <Button FontSize="16" x:Name="DetailedInfo" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подробная информация о фильме</Button>
+        </StackPanel>
     </Grid>
 </Window>

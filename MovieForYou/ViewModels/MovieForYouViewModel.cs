@@ -1,69 +1,125 @@
-﻿using MovieForYou.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
+using MovieForYou.Models;
 using System.Net.TMDb;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace MovieForYou
 {
     public class MovieForYouViewModel : ViewModelBase
     {
-        ServiceClient first = new ServiceClient("fa314d1331397149188e07fbec92930d");
-        CancellationToken token = new CancellationToken();
+        private Movie _selectedMovie;
 
-        private MainDataMovie selectedMovie;
-
-        public MainDataMovie SelectedMovie
+        public Movie SelectedMovie
         {
             get
             {
-                return selectedMovie;
+                return _selectedMovie;
             }
             set
             {
-                selectedMovie = value;
+                _selectedMovie = value;
                 OnPropertyChanged("SelectedMovie");
             }
         }
 
-        private List<MainDataMovie> movies;
+        private Movie _direcctMovie;
 
-        public List<MainDataMovie> Movies
+        public Movie DirectMovie
         {
             get
             {
-                return movies;
+                return _direcctMovie;
             }
             set
             {
-                movies = value;
+                _direcctMovie = value;
+                OnPropertyChanged("DirectMovie");
+            }
+        }
+
+        private List<Movie> _movies;
+
+        public List<Movie> Movies
+        {
+            get
+            {
+                return _movies;
+            }
+            set
+            {
+                _movies = value;
                 OnPropertyChanged("Movies");
             }
         }
 
-        private RelayCommand showPopFilms;
+        private List<MediaCast> _cast;
+
+        public List<MediaCast> Cast
+        {
+            get
+            {
+                return _cast;
+            }
+            set
+            {
+                _cast = value;
+                OnPropertyChanged("Cast");
+            }
+        }
+
+        private List<MediaCrew> _crew;
+
+        public List<MediaCrew> Crew
+        {
+            get
+            {
+                return _crew;
+            }
+            set
+            {
+                _crew = value;
+                OnPropertyChanged("Crew");
+            }
+        }
+
+        private RelayCommand _showPopFilms;
 
         public RelayCommand ShowPopFilms
         {
             get
             {
-                if (showPopFilms == null)
-                    showPopFilms = new RelayCommand(ExecuteShowPopFilms);
-                return showPopFilms;
+                if (_showPopFilms == null)
+                    _showPopFilms = new RelayCommand(ExecuteShowPopFilms);
+                return _showPopFilms;
             }
         }
 
         private async void ExecuteShowPopFilms(object param)
         {
-            GetData data = new GetData();
-            Movies = await data.GetPopularMoviesData();
-
-            List<MainDataMovie> test = new List<MainDataMovie>();
+            GetData data = new GetData();//переделать
+            Movies = await data.GetPopularMoviesData();//сделать метод статическим
         }
+
+        private RelayCommand _showDirectMovie;
+
+        public RelayCommand ShowDirectMovie
+        {
+            get
+            {
+                if (_showDirectMovie == null)
+                    _showDirectMovie = new RelayCommand(ExecuteShowDirectMovie);
+                return _showDirectMovie;
+            }
+        }
+
+        private async void ExecuteShowDirectMovie(object param)
+        {
+            GetData data = new GetData();//переделать
+            Movie fullDataMovie = await data.GetDirectMoveData(SelectedMovie.Id);//сделать метод статическим
+
+            Crew = fullDataMovie.Credits.Crew.ToList<MediaCrew>();
+            Cast = fullDataMovie.Credits.Cast.ToList<MediaCast>();
+
+            DirectMovie = fullDataMovie;}
     }
 }
-
