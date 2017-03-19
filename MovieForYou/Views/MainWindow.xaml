@@ -27,28 +27,29 @@
                 </ribbon:RibbonApplicationMenu>
             </ribbon:Ribbon.ApplicationMenu>
 
-            <ribbon:RibbonTab Header="Популярные">
+            <ribbon:RibbonTab Header="Фильмы">
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowPopFilms}"/>
+                    <ribbon:RibbonButton Label="Лучшие" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowBestFilms}"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Популярные" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowPopFilms}"/>
                 </ribbon:RibbonGroup>
-            </ribbon:RibbonTab>
-            <ribbon:RibbonTab Header="Новинки">
                 <ribbon:RibbonGroup Header="">
-                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center" Click="RibbonButton1_Click"/>
+                    <ribbon:RibbonButton Label="Скоро в кино" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowNewFilms}"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center" />
+                    <ribbon:RibbonButton Label="Сейчас в кино" HorizontalAlignment="Center" Click="RibbonButton2_Click" Command="{Binding Path=ShowNowPlayingFilms}"/>
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
-            <ribbon:RibbonTab Header="Идущие сейчас">
+            <ribbon:RibbonTab Header="Сериалы">
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Фильмы" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Лучшие" HorizontalAlignment="Center" Click="RibbonButton3_Click" Command="{Binding Path=ShowBestShows}"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Сериалы" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Популярные" HorizontalAlignment="Center" Click="RibbonButton3_Click" Command="{Binding Path=ShowPopShows}"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Сейчас на ТВ" HorizontalAlignment="Center" Click="RibbonButton3_Click" Command="{Binding Path=ShowNowShows}"/>
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
             <ribbon:RibbonTab Header="Поиск">
@@ -68,8 +69,10 @@
         </ribbon:Ribbon>
 
         <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <StackPanel Grid.Row="2">
-            <Button FontSize="16" x:Name="DetailedInfo" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подробная информация о фильме</Button>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подробная инф. о фильме</Button>
+            <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подробная инф. о сериале</Button>
+            <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подробная инф. об актере</Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -110,6 +110,9 @@
     <Compile Include="Views\ActorSearchView.xaml.cs">
       <DependentUpon>ActorSearchView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ActorView.xaml.cs">
+      <DependentUpon>ActorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MovieSearchView.xaml.cs">
       <DependentUpon>MovieSearchView.xaml</DependentUpon>
     </Compile>
@@ -119,7 +122,17 @@
     <Compile Include="Views\MovieView.xaml.cs">
       <DependentUpon>MovieView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShowsList.xaml.cs">
+      <DependentUpon>ShowsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShowView.xaml.cs">
+      <DependentUpon>ShowView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ActorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +161,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MovieView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShowsList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

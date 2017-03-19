@@ -13,10 +13,13 @@ namespace MovieForYou.Views
         private readonly IRegionManager _regionManager;
         IRegion _region;
 
-        ActorSearchView _actorSearchViewView;
-        MovieSearchView _movieSearchViewView;
+        private ActorSearchView _actorSearchViewView;
+        private MovieSearchView _movieSearchViewView;
         private MoviesList _moviesList;
         private MovieView _movieView;
+        private ShowsList _showsList;
+        private ShowView _showView;
+        private ActorView _actorView;
 
         public MainWindow(IUnityContainer container, IRegionManager regionManager)
         {
@@ -32,6 +35,9 @@ namespace MovieForYou.Views
             _movieSearchViewView = _container.Resolve<MovieSearchView>();
             _moviesList = _container.Resolve<MoviesList>();
             _movieView = _container.Resolve<MovieView>();
+            _showsList = _container.Resolve<ShowsList>();
+            _showView = _container.Resolve<ShowView>();
+            _actorView = _container.Resolve<ActorView>();
 
             _region = _regionManager.Regions["ContentRegion"];
 
@@ -39,11 +45,9 @@ namespace MovieForYou.Views
             _region.Add(_movieSearchViewView);
             _region.Add(_moviesList);
             _region.Add(_movieView);
-        }
-
-        private void RibbonButton1_Click(object sender, RoutedEventArgs e)
-        {
-            _region.Activate(_actorSearchViewView);
+            _region.Add(_showsList);
+            _region.Add(_showView);
+            _region.Add(_actorView);
         }
 
         private void RibbonButton2_Click(object sender, RoutedEventArgs e)
@@ -51,9 +55,24 @@ namespace MovieForYou.Views
             _region.Activate(_moviesList);
         }
 
+        private void RibbonButton3_Click(object sender, RoutedEventArgs e)
+        {
+            _region.Activate(_showsList);
+        }
+
         private void DetailedInfo_OnClick(object sender, RoutedEventArgs e)
         {
             _region.Activate(_movieView);
+        }
+
+        private void DetailedInfoShow_OnClick(object sender, RoutedEventArgs e)
+        {
+            _region.Activate(_showView);
+        }
+
+        private void DetailedInfoActor_OnClick(object sender, RoutedEventArgs e)
+        {
+            _region.Activate(_actorView);
         }
     }
 }
