@@ -60,6 +60,11 @@ namespace MovieForYou.Views
             _region.Activate(_showsList);
         }
 
+        private void RibbonButton4_Click(object sender, RoutedEventArgs e)
+        {
+            _region.Activate(_movieSearchViewView);
+        }
+
         private void DetailedInfo_OnClick(object sender, RoutedEventArgs e)
         {
             _region.Activate(_movieView);

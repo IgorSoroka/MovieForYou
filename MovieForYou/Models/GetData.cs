@@ -5,6 +5,7 @@ using System.Net.TMDb;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 
 namespace MovieForYou.Models
 {
@@ -15,62 +16,62 @@ namespace MovieForYou.Models
 
         public async Task<List<Movie>> GetPopularMoviesData()
         {
-            Movies movies = await first.Movies.GetPopularAsync(null, 1, token);
+            Movies movies = await first.Movies.GetPopularAsync("ru", 1, token);
             List<Movie> popularMovies = movies.Results.ToList<Movie>();
             return popularMovies;
         }
 
         public async Task<List<Movie>> GetNewMoviesData()
         {
-            Movies movies = await first.Movies.GetNowPlayingAsync(null, 1, token);
+            Movies movies = await first.Movies.GetNowPlayingAsync("ru", 1, token);
             List<Movie> newMovies = movies.Results.ToList<Movie>();
             return newMovies;
         }
 
         public async Task<List<Movie>> GetTopRatedMoviesData()
         {
-            Movies movies = await first.Movies.GetTopRatedAsync(null, 1, token);
+            Movies movies = await first.Movies.GetTopRatedAsync("ru", 1, token);
             List<Movie> topMovies = movies.Results.ToList<Movie>();
             return topMovies;
         }
 
         public async Task<List<Movie>> GetUpCommingMoviesData()
         {
-            Movies movies = await first.Movies.GetUpcomingAsync(null, 1, token);
+            Movies movies = await first.Movies.GetUpcomingAsync("ru", 1, token);
             List<Movie> upcomingMovies = movies.Results.ToList<Movie>();
             return upcomingMovies;
         }
 
         public async Task<Movie> GetDirectMoveData(int id)
         {
-            Movie movie = await first.Movies.GetAsync(id, null, true, token);
+            Movie movie = await first.Movies.GetAsync(id, "ru", true, token);
             return movie;
         }
 
         public async Task<List<Show>> GetPopularShowsData()
         {
-            Shows shows = await first.Shows.GetPopularAsync(null, 1, token);
+            Shows shows = await first.Shows.GetPopularAsync("ru", 1, token);
             List<Show> popularShows = shows.Results.ToList<Show>();
             return popularShows;
         }
 
         public async Task<List<Show>> GetNowShowsData()
         {
-            Shows shows = await first.Shows.GetAiringAsync(null, 1, null, token);
+            Shows shows = await first.Shows.GetAiringAsync("ru", 1, null, token);
             List<Show> nowShows = shows.Results.ToList<Show>();
             return nowShows;
         }
 
         public async Task<List<Show>> GetTopRatedShowsData()
         {
-            Shows shows = await first.Shows.GetTopRatedAsync(null, 1, token);
+            Shows shows = await first.Shows.GetTopRatedAsync("ru", 1, token);
             List<Show> topRatedShows = shows.Results.ToList<Show>();
             return topRatedShows;
         }
         
         public async Task<Show> GetDirectShowData(int id)
         {
-            Show show = await first.Shows.GetAsync(id, null, true, token);
+            Show show = await first.Shows.GetAsync(id, "ru", true, token);
             return show;
         }
 
@@ -82,12 +83,21 @@ namespace MovieForYou.Models
 
         public async Task<List<PersonCredit>> GetDirectActorMoviesList(int id)
         {
-            IEnumerable<PersonCredit> movies = await first.People.GetCreditsAsync(id, null, (DataInfoType)1, token);
+            IEnumerable<PersonCredit> movies = await first.People.GetCreditsAsync(id, "ru", (DataInfoType)1, token);
             List<PersonCredit> actorMovies = movies.ToList<PersonCredit>();
             return actorMovies;
         }
 
-       
+        public async Task<List<string>> GetGenres()
+        {
+            IEnumerable<Genre> genres = await first.Genres.GetAsync((DataInfoType)1, token);
+            List<string> stringGenres = new List<string>();
+            foreach (var item in genres)
+            {
+                stringGenres.Add(item.Name);
+            }
+            return stringGenres;
+        }
 
         //переделать, чтобы принимал любое множество
         public async Task DownloaderAsync(Movies movies)
@@ -122,6 +132,13 @@ namespace MovieForYou.Models
                     }
                 }
             }
+        }
+
+        public async Task<List<Movie>> GetMoviesByName(string name)
+        {
+            Movies movies = await first.Movies.SearchAsync(name, "ru", true, null, true, 1, token);
+            List<Movie> searchrMovies = movies.Results.ToList<Movie>();
+            return searchrMovies;
         }
     }
 }

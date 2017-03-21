@@ -4,8 +4,43 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Height="300" Width="300">
+        Height="auto" Width="auto">
     <Grid>
-        <TextBlock Text="Test Regions Movie Search" FontSize="20"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" LastChildFill="True">
+            <TextBox Width="200" Text="{Binding Path = Name, UpdateSourceTrigger=LostFocus}"></TextBox>
+            <Button FontSize="10" Command="{Binding Path = NameSearch}">Искать!</Button>
+        </DockPanel>
+        <StackPanel Grid.Row="1">
+            <Label FontSize="10">Жанр</Label>
+            <ComboBox ItemsSource="{Binding Path=Genres}" SelectedItem="{Binding Path=SelectGenre, Mode=TwoWay}"></ComboBox>
+            <Label FontSize="10">Год создания</Label>
+            <ComboBox ItemsSource="{Binding Path=YearsList}" SelectedItem="{Binding Path=SelectedYear, Mode=TwoWay}"></ComboBox>
+            <Label FontSize="10">Интервал годов</Label>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <Label FontSize="10">C </Label>
+                    <ComboBox ItemsSource="{Binding Path=YearsList}" SelectedItem="{Binding Path=SelectedFirstYear, Mode=TwoWay}"></ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Column="1">
+                    <Label FontSize="10">по</Label>
+                    <ComboBox ItemsSource="{Binding Path=YearsList}" SelectedItem="{Binding Path=SelectedLastYear, Mode=TwoWay}"></ComboBox>
+                </DockPanel>
+            </Grid>
+            <Label FontSize="10">Рейтинг</Label>
+            <Slider Maximum="10" Minimum="0" TickFrequency="0.1" Cursor="Arrow" Value="{Binding Path=SelectedRating, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button FontSize="10" Command="{Binding Path = Search}">Поиск</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="2">
+            <Label FontSize="10"></Label>
+        </StackPanel>
     </Grid>
 </UserControl>

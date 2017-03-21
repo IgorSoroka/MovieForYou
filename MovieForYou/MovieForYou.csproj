@@ -106,6 +106,7 @@
     <Compile Include="Models\DataCast.cs" />
     <Compile Include="Models\DataCrew.cs" />
     <Compile Include="Models\GetData.cs" />
+    <Compile Include="Models\RepositoryGenres.cs" />
     <Compile Include="ViewModels\MovieForYouViewModel.cs" />
     <Compile Include="Views\ActorSearchView.xaml.cs">
       <DependentUpon>ActorSearchView.xaml</DependentUpon>

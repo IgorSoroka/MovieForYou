@@ -54,7 +54,10 @@
             </ribbon:RibbonTab>
             <ribbon:RibbonTab Header="Поиск">
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Найти фильм или сериал" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Найти фильм" HorizontalAlignment="Center" Click="RibbonButton4_Click"/>
+                </ribbon:RibbonGroup>
+                <ribbon:RibbonGroup>
+                    <ribbon:RibbonButton Label="Найти сериал" HorizontalAlignment="Center"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
                     <ribbon:RibbonButton Label="Найти актера" HorizontalAlignment="Center"/>
@@ -73,6 +76,7 @@
             <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подробная инф. о фильме</Button>
             <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подробная инф. о сериале</Button>
             <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подробная инф. об актере</Button>
+            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = NameSearch}">Поиск</Button>
         </StackPanel>
     </Grid>
 </Window>
