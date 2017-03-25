@@ -7,7 +7,7 @@
         xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="700">
+        Title="MainWindow" Height="700" Width="900">
     <Window.DataContext>
         <local:MovieForYouViewModel/>
     </Window.DataContext>
@@ -17,8 +17,11 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-
-        <ribbon:Ribbon >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+        <ribbon:Ribbon Grid.ColumnSpan="2">
             <ribbon:Ribbon.ApplicationMenu>
                 <ribbon:RibbonApplicationMenu>
                     <ribbon:RibbonApplicationMenuItem Header="Свернуть" x:Name="MenuItemMin"/>
@@ -60,7 +63,7 @@
                     <ribbon:RibbonButton Label="Найти сериал" HorizontalAlignment="Center"/>
                 </ribbon:RibbonGroup>
                 <ribbon:RibbonGroup>
-                    <ribbon:RibbonButton Label="Найти актера" HorizontalAlignment="Center"/>
+                    <ribbon:RibbonButton Label="Найти актера" HorizontalAlignment="Center" Command="{Binding Path=ShowPopularActors}" Click="RibbonButton5_Click"/>
                 </ribbon:RibbonGroup>
             </ribbon:RibbonTab>
             <ribbon:RibbonTab Header="Справка">
@@ -73,10 +76,69 @@
 
         <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подробная инф. о фильме</Button>
-            <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подробная инф. о сериале</Button>
-            <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подробная инф. об актере</Button>
-            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = NameSearch}">Поиск</Button>
+            <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подр. инф. о фильме</Button>
+            <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подр. инф. о сериале</Button>
+            <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подр. инф. об актере</Button>
+            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = MovieNameSearch}">Поиск фильма</Button>
+            <Button FontSize="16" Click="RibbonButton6_Click" Command="{Binding Path = ActorNameSearch}">Поиск актера</Button>
+            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = Search}">Поиск</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Orientation="Vertical">
+            <ListBox ItemsSource="{Binding Path=TopPopMovies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                                <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="12"/>
+                                <TextBlock Text="{Binding Path = Popularity}" Margin="3" FontSize="12"/>
+                                <!--<Button FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding Path=TopBestMovies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="12"/>
+                            <TextBlock Text="{Binding Path = VoteAverage}" Margin="3" FontSize="12"/>
+                            <!--<Button FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding Path=TopFutureMovies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="12"/>
+                            <TextBlock Text="{Binding Path = ReleaseDate, StringFormat=D, ConverterCulture=ru-RU}" Margin="3" FontSize="12"/>
+                            <!--<Button FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding Path=TopPopShows}" SelectedItem="{Binding Path=SelectedShow, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="12"/>
+                            <TextBlock Text="{Binding Path = Popularity}" Margin="3" FontSize="12"/>
+                            <!--<Button FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox ItemsSource="{Binding Path=TopBestShows}" SelectedItem="{Binding Path=SelectedShow, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5">
+                            <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="12"/>
+                            <TextBlock Text="{Binding Path = VoteAverage}" Margin="3" FontSize="12"/>
+                            <!--<Button FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </Grid>
 </Window>

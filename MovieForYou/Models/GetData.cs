@@ -140,6 +140,73 @@ namespace MovieForYou.Models
             List<Movie> searchrMovies = movies.Results.ToList<Movie>();
             return searchrMovies;
         }
+
+        public async Task<List<Person>> GetPopActors()
+        {
+            List<Person> popularPersons = new List<Person>();
+            People firstPerson = await this.first.People.SearchAsync("Diesel", true, true, 1, token);
+            popularPersons.Add(firstPerson.Results.FirstOrDefault());
+
+            return popularPersons;
+        }
+
+        public async Task<List<Person>> GetActorsByName(string actorName)
+        {
+            People searchPeople = await first.People.SearchAsync(actorName, true, true, 1, token);
+            return searchPeople.Results.ToList<Person>(); 
+        }
+
+        public async Task<List<Movie>> GetSearchedMovies(string selectGenre, decimal selectedRating)
+        {
+            Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, null, null, null, selectedRating, null, null, 1, token);
+            List<Movie> list = searchedMovies.Results.ToList<Movie>();
+            return list;
+        }
+
+
+        public async Task<List<Movie>> GetSearchedMovies(int? selectedYear, string selectGenre, decimal selectedRating)
+        {
+            Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, selectedYear, null, null, null, selectedRating, null, null, 1, token);
+            List<Movie> list = (searchedMovies.Results.Where(item => item.ReleaseDate.Value.Year == selectedYear)).ToList<Movie>();
+
+            return list;
+        }
+
+        public async Task<List<Movie>> GetSearchedMoviesFirstYear(int? selectedYear, string selectGenre, decimal selectedRating)
+        {
+            DateTime firstTime = new DateTime((int)selectedYear, 8, 18);
+            Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, firstTime, null, null, selectedRating, null, null, 1, token);
+            List<Movie> list = (searchedMovies.Results.Where(item => item.ReleaseDate.Value.Year == selectedYear)).ToList<Movie>();
+
+            return list;
+        }
+
+        public async Task<List<Movie>> GetSearchedMoviesLastYear(int? selectedYear, string selectGenre, decimal selectedRating)
+        {
+            DateTime lastTime = new DateTime((int)selectedYear, 8, 18);
+            Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, null, lastTime, null, selectedRating, null, null, 1, token);
+            List<Movie> list = (searchedMovies.Results.Where(item => item.ReleaseDate.Value.Year == selectedYear)).ToList<Movie>();
+
+            return list;
+        }
+
+        public async Task<List<Movie>> GetSearchedMovies(int? selectedFirstYear, int? selectedLastYear, string selectGenre, decimal selectedRating)
+        {
+           DateTime date1 = new DateTime(2010, 8, 18);
+           DateTime firstTime = new DateTime((int)selectedFirstYear, 8, 18);
+           DateTime secondTime = new DateTime((int)selectedLastYear, 12, 31);
+           Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, firstTime, secondTime, null, selectedRating, null, null, 1, token);
+           List<Movie> list = (searchedMovies.Results.Where(item => item.ReleaseDate.Value > firstTime && item.ReleaseDate.Value < secondTime)).ToList<Movie>();
+            
+           return list;
+
+            //var find = list.Select(item => item.Genres.Where(it => it.Name == "Comedy"));
+            //var find = (from item in list
+            //            where item.ReleaseDate < moment2 && item.ReleaseDate > moment1 && item.Genres.Contains(it => it.Name == "Action")
+            //            select item).ToList<Movie>();
+
+            //Movies movies = await first.Genres.GetMoviesAsync(1, "ru", true, 1, token);
+        }
     }
 }
 

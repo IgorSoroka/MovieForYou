@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="MovieForYou.Views.ActorsList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MovieForYou"
+        mc:Ignorable="d"
+        Height="auto" Width="auto">
+    <UserControl.Resources>
+        <local:ImageUrlConverter x:Key="PathConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path=ActorsList}" SelectedItem="{Binding Path=SelectedSearchedActor, Mode=TwoWay}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <Image Source="{Binding Poster, Converter={StaticResource PathConverter}}" Height="150" Width="150"/>
+                        <TextBlock Text="{Binding Path = Name}" Margin="3" FontSize="14"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

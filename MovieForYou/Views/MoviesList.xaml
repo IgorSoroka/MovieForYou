@@ -11,16 +11,28 @@
     </UserControl.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding Path=Movies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Background" Value="LightSteelBlue"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <Image Source="{Binding Poster, Converter={StaticResource PathConverter}}" Height="100" Width="100"/>
                         <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="14"/>
-                                <TextBlock Text="{Binding Path = ReleaseDate}" Margin="3" FontSize="14"/>
-                            </StackPanel>
+                            <TextBlock Text="{Binding Path = Title}" Margin="3" FontSize="14"/>
                             <TextBlock Text="{Binding Path = OriginalTitle}" Margin="3" FontSize="14"/>
+                            <TextBlock Text="{Binding Path = ReleaseDate, StringFormat=D, ConverterCulture=ru-RU}" Margin="3" FontSize="14"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100"></ColumnDefinition>

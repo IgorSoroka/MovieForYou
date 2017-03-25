@@ -2,11 +2,54 @@
 using System.Linq;
 using MovieForYou.Models;
 using System.Net.TMDb;
+using System.Threading.Tasks;
 
 namespace MovieForYou
 {
     public class MovieForYouViewModel : ViewModelBase
     {
+        static readonly GetData data = new GetData();
+
+        static MovieForYouViewModel()
+        {
+            GetTopMovies();
+            GetBestMovies();
+            GetFutureMovies();
+            GetBestShows();
+            GetPopularShows();
+        }
+
+        #region Properties_Movie
+
+        private static List<Movie> _topPopMovies;
+
+        public List<Movie> TopPopMovies
+        {
+            get
+            {
+                return _topPopMovies;
+            }
+        }
+
+        private static List<Movie> _topBestMovies;
+
+        public List<Movie> TopBestMovies
+        {
+            get
+            {
+                return _topBestMovies;
+            }
+        }
+
+        private static List<Movie> _topFutureMovies;
+
+        public List<Movie> TopFutureMovies
+        {
+            get
+            {
+                return _topFutureMovies;
+            }
+        }
 
         private Movie _selectedMovie;
 
@@ -53,42 +96,27 @@ namespace MovieForYou
             }
         }
 
-        private List<int> _yearsList;
-        
-        public List<int> YearsList
+        #endregion
+
+        #region Properties_Show
+
+        private static List<Show> _topPopShows;
+
+        public List<Show> TopPopShows
         {
             get
             {
-                if (_yearsList == null)
-                {
-                    _yearsList = GetYearsList();
-                }
-                return _yearsList;
-            }
-            set
-            {
-                _yearsList = value;
-                OnPropertyChanged("YearsList");
+                return _topPopShows;
             }
         }
 
-        private List<string> _genres;
-        //правильно ли так пользоваться свойством
-        public List<string> Genres
+        private static List<Show> _topBestShows;
+
+        public List<Show> TopBestShows
         {
             get
             {
-                if (_genres == null)
-                {
-                    _genres = RepositoryGenres.GetNames();
-                    //GetGenres();
-                }
-                return _genres;
-            }
-            set
-            {
-                _genres = value;
-                OnPropertyChanged("Genres");
+                return _topBestShows;
             }
         }
 
@@ -125,7 +153,7 @@ namespace MovieForYou
         private List<Show> _shows;
 
         public List<Show> Shows
-        { 
+        {
             get
             {
                 return _shows;
@@ -134,6 +162,63 @@ namespace MovieForYou
             {
                 _shows = value;
                 OnPropertyChanged("Shows");
+            }
+        }
+
+        #endregion
+
+        #region Properties_Other
+
+        private List<int> _yearsList;
+
+        public List<int> YearsList
+        {
+            get
+            {
+                if (_yearsList == null)
+                {
+                    _yearsList = GetYearsList();
+                }
+                return _yearsList;
+            }
+            set
+            {
+                _yearsList = value;
+                OnPropertyChanged("YearsList");
+            }
+        }
+
+        private List<string> _genres;
+        //правильно ли так пользоваться свойством
+        public List<string> Genres
+        {
+            get
+            {
+                if (_genres == null)
+                {
+                    _genres = RepositoryGenres.GetNames();
+                }
+                return _genres;
+            }
+            set
+            {
+                _genres = value;
+                OnPropertyChanged("Genres");
+            }
+        }
+
+        private string _selectGenre;
+
+        public string SelectGenre
+        {
+            get
+            {
+                return _selectGenre;
+            }
+            set
+            {
+                _selectGenre = value;
+                OnPropertyChanged("SelectGenre");
             }
         }
 
@@ -197,6 +282,21 @@ namespace MovieForYou
             }
         }
 
+        private Person _selectedSearchedActor;
+
+        public Person SelectedSearchedActor
+        {
+            get
+            {
+                return _selectedSearchedActor;
+            }
+            set
+            {
+                _selectedSearchedActor = value;
+                OnPropertyChanged("SelectedSearchedActor");
+            }
+        }
+
         private Person _direcctActor;
 
         public Person DirectActor
@@ -226,7 +326,150 @@ namespace MovieForYou
                 OnPropertyChanged("ActorMovies");
             }
         }
-        
+
+        private string _name;
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        private List<Person> _actorsList;
+
+        public List<Person> ActorsList
+        {
+            get
+            {
+                return _actorsList;
+            }
+            set
+            {
+                _actorsList = value;
+                OnPropertyChanged("ActorsList");
+            }
+        }
+
+        private int? _selectedYear;
+
+        public int? SelectedYear
+        {
+            get
+            {
+                return _selectedYear;
+            }
+            set
+            {
+                _selectedYear = value;
+                OnPropertyChanged("SelectedYear");
+            }
+        }
+
+        private int? _selectedFirstYear;
+
+        public int? SelectedFirstYear
+        {
+            get
+            {
+                return _selectedFirstYear;
+            }
+            set
+            {
+                _selectedFirstYear = value;
+                OnPropertyChanged("SelectedFirstYear");
+            }
+        }
+
+        private int? _selectedLastYear;
+
+        public int? SelectedLastYear
+        {
+            get
+            {
+                return _selectedLastYear;
+            }
+            set
+            {
+                _selectedLastYear = value;
+                OnPropertyChanged("SelectedLastYear");
+            }
+        }
+
+        private decimal _selectedRating;
+
+        public decimal SelectedRating
+        {
+            get
+            {
+                return _selectedRating;
+            }
+            set
+            {
+                _selectedRating = value;
+                OnPropertyChanged("SelectedRating");
+            }
+        }
+
+        private static List<Person> _popularActors;
+
+        public List<Person> PopularActors
+        {
+            get
+            {
+                return _popularActors;
+            }
+            set
+            {
+                _popularActors = value;
+                OnPropertyChanged("PopularActors");
+            }
+        }
+
+
+
+        private string _actorName;
+
+        public string ActorName
+        {
+            get
+            {
+                return _actorName;
+            }
+            set
+            {
+                _actorName = value;
+                OnPropertyChanged("ActorName");
+            }
+        }
+
+
+        #endregion
+
+        #region Commands_Movie
+
+        private RelayCommand _movieNameSearch;
+
+        public RelayCommand MovieNameSearch
+        {
+            get
+            {
+                if (_movieNameSearch == null)
+                    _movieNameSearch = new RelayCommand(ExecuteMovieNameSearch);
+                return _movieNameSearch;
+            }
+        }
+
+        private async void ExecuteMovieNameSearch(object param)
+        {
+            Movies = await data.GetMoviesByName(Name);
+        }
 
         private RelayCommand _showPopFilms;
 
@@ -243,8 +486,9 @@ namespace MovieForYou
         private async void ExecuteShowPopFilms(object param)
         {
             Movies = null;
-            var data = new GetData();//переделать
             Movies = await data.GetPopularMoviesData();//сделать метод статическим
+
+            GetData data1 = new GetData();
         }
 
         private RelayCommand _showDirectMovie;
@@ -264,21 +508,20 @@ namespace MovieForYou
             DirectMovie = null;
             Crew = null;
             Cast = null;
-            var data = new GetData();//переделать
 
             if (SelectedMovie != null)
             {
                 var fullDataMovie = await data.GetDirectMoveData(SelectedMovie.Id);//сделать метод статическим
-                Crew = fullDataMovie.Credits.Crew.ToList<MediaCrew>();
-                Cast = fullDataMovie.Credits.Cast.ToList<MediaCast>();
+                Crew = (fullDataMovie.Credits.Crew).Take(20).ToList<MediaCrew>();
+                Cast = (fullDataMovie.Credits.Cast).Take(10).ToList<MediaCast>();
                 DirectMovie = fullDataMovie;
             }
 
             if (SelectedActorMovie != null)
             {
                 var fullDataMovie = await data.GetDirectMoveData(SelectedActorMovie.Id);//сделать метод статическим
-                Crew = fullDataMovie.Credits.Crew.ToList<MediaCrew>();
-                Cast = fullDataMovie.Credits.Cast.ToList<MediaCast>();
+                Crew = (fullDataMovie.Credits.Crew).Take(20).ToList<MediaCrew>();
+                Cast = (fullDataMovie.Credits.Cast).Take(10).ToList<MediaCast>();
                 DirectMovie = fullDataMovie;
             }
 
@@ -301,7 +544,6 @@ namespace MovieForYou
         private async void ExecuteShowNowPlayingFilms(object param)
         {
             Movies = null;
-            var data = new GetData();//переделать
             Movies = await data.GetNewMoviesData();//сделать метод статическим
         }
 
@@ -320,7 +562,6 @@ namespace MovieForYou
         private async void ExecuteShowNewFilms(object param)
         {
             Movies = null;
-            var data = new GetData();//переделать
             Movies = await data.GetUpCommingMoviesData();//сделать метод статическим
         }
 
@@ -339,9 +580,12 @@ namespace MovieForYou
         private async void ExecuteShowBestFilms(object param)
         {
             Movies = null;
-            var data = new GetData();//переделать
             Movies = await data.GetTopRatedMoviesData();//сделать метод статическим
         }
+
+        #endregion
+
+        #region Commands_Shows
 
         private RelayCommand _showPopShows;
 
@@ -358,7 +602,6 @@ namespace MovieForYou
         private async void ExecuteShowPopShows(object param)
         {
             Shows = null;
-            var data = new GetData();//переделать
             Shows = await data.GetPopularShowsData();//сделать метод статическим
         }
 
@@ -377,7 +620,6 @@ namespace MovieForYou
         private async void ExecuteShowNowShows(object param)
         {
             Shows = null;
-            var data = new GetData();//переделать
             Shows = await data.GetNowShowsData();//сделать метод статическим
         }
 
@@ -396,7 +638,6 @@ namespace MovieForYou
         private async void ExecuteShowBestShows(object param)
         {
             Shows = null;
-            var data = new GetData();//переделать
             Shows = await data.GetTopRatedShowsData();//сделать метод статическим
         }
 
@@ -417,11 +658,48 @@ namespace MovieForYou
             DirectShow = null;
             Crew = null;
             Cast = null;
-            var data = new GetData();//переделать
             var fullDataShow = await data.GetDirectShowData(SelectedShow.Id);//сделать метод статическим
-            Crew = fullDataShow.Credits.Crew.ToList<MediaCrew>();
-            Cast = fullDataShow.Credits.Cast.ToList<MediaCast>();
+            Crew = (fullDataShow.Credits.Crew).Take(20).ToList<MediaCrew>();
+            Cast = (fullDataShow.Credits.Cast).Take(10).ToList<MediaCast>();
             DirectShow = fullDataShow;
+        }
+
+        #endregion
+
+        #region Commands_Other
+
+        private RelayCommand _showPopularActors;
+
+        public RelayCommand ShowPopularActors
+        {
+            get
+            {
+                if (_showPopularActors == null)
+                    _showPopularActors = new RelayCommand(ExecuteShowPopularActors);
+                return _showPopularActors;
+            }
+        }
+
+        private async void ExecuteShowPopularActors(object param)
+        {
+            _popularActors = await data.GetPopActors();
+        }
+
+        private RelayCommand _actorNameSearch;
+
+        public RelayCommand ActorNameSearch
+        {
+            get
+            {
+                if (_actorNameSearch == null)
+                    _actorNameSearch = new RelayCommand(ExecuteActorNameSearch);
+                return _actorNameSearch;
+            }
+        }
+
+        private async void ExecuteActorNameSearch(object param)
+        {
+            ActorsList = await data.GetActorsByName(ActorName);
         }
 
         private RelayCommand _showDirectActor;
@@ -440,26 +718,20 @@ namespace MovieForYou
         {
             DirectActor = null;
             ActorMovies = null;
-            var data = new GetData();//переделать
-            ActorMovies = await data.GetDirectActorMoviesList(SelectedActor.Id);
-            DirectActor = await data.GetDirectActorData(SelectedActor.Id);
-        }
-
-
-
-        private string _name;
-
-        public string Name
-        {
-            get
+            if (SelectedActor != null)
             {
-                return _name;
+                ActorMovies = await data.GetDirectActorMoviesList(SelectedActor.Id);
+                DirectActor = await data.GetDirectActorData(SelectedActor.Id);
             }
-            set
+
+            if (SelectedSearchedActor != null)
             {
-                _name = value;
-                OnPropertyChanged("Name");
+                ActorMovies = await data.GetDirectActorMoviesList(SelectedSearchedActor.Id);
+                DirectActor = await data.GetDirectActorData(SelectedSearchedActor.Id);
             }
+
+            SelectedActor = null;
+            SelectedSearchedActor = null;
         }
 
         private RelayCommand _search;
@@ -476,102 +748,78 @@ namespace MovieForYou
 
         private async void ExecuteSearch(object param)
         {
+            Movies = null;
+            string genre = RepositoryGenres.GetEnglishName(SelectGenre);
 
+            if (SelectedFirstYear == null && SelectedLastYear == null && SelectedYear == null)
+                Movies = await data.GetSearchedMovies(genre, SelectedRating);
+            else if (SelectedYear != null)
+                Movies = await data.GetSearchedMovies(SelectedYear, genre, SelectedRating);
+            else if (SelectedFirstYear != null || SelectedLastYear != null)
+            {
+                if(SelectedFirstYear != null && SelectedLastYear != null)
+                    Movies = await data.GetSearchedMovies(SelectedFirstYear, SelectedLastYear, genre, SelectedRating);
+                else if (SelectedFirstYear != null && SelectedLastYear == null)
+                    Movies = await data.GetSearchedMoviesFirstYear(SelectedFirstYear, genre, SelectedRating);
+                else if (SelectedFirstYear == null && SelectedLastYear != null)
+                    Movies = await data.GetSearchedMoviesLastYear(SelectedLastYear, genre, SelectedRating);
+            }
+
+            SelectedFirstYear = null;
+            SelectedLastYear = null;
+            SelectedYear = null;
         }
 
-        private RelayCommand _nameSearch;
+        #endregion
 
-        public RelayCommand NameSearch
+        #region Additional_Methods
+
+        private static async void GetTopMovies()
         {
-            get
-            {
-                if (_nameSearch == null)
-                    _nameSearch = new RelayCommand(ExecuteNameSearch);
-                return _nameSearch;
-            }
+            List<Movie> intermediate = await data.GetPopularMoviesData();
+            _topPopMovies = intermediate.Take(5).ToList<Movie>();
         }
 
-        private async void ExecuteNameSearch(object param)
+        private static async void GetBestMovies()
         {
-            GetData data = new GetData();
-            Movies = await data.GetMoviesByName(Name);
+            List<Movie> intermediate = await data.GetTopRatedMoviesData();
+            _topBestMovies = intermediate.Take(5).ToList<Movie>();
         }
 
-        private int _selectedYear;
-
-        public int SelectedYear
+        private static async void GetFutureMovies()
         {
-            get
-            {
-                return _selectedYear;
-            }
-            set
-            {
-                _selectedYear = value;
-                OnPropertyChanged("SelectedYear");
-            }
+            List<Movie> intermediate = await data.GetUpCommingMoviesData();
+            _topFutureMovies = intermediate.Take(5).ToList<Movie>();
         }
 
-        private int _selectedFirstYear;
-
-        public int SelectedFirstYear
+        private static async void GetBestShows()
         {
-            get
-            {
-                return _selectedFirstYear;
-            }
-            set
-            {
-                _selectedFirstYear = value;
-                OnPropertyChanged("SelectedFirstYear");
-            }
+            List<Show> intermediate = await data.GetTopRatedShowsData();
+            _topBestShows = intermediate.Take(5).ToList<Show>();
         }
 
-        private int _selectedLastYear;
-
-        public int SelectedLastYear
+        private static async void GetPopularShows()
         {
-            get
-            {
-                return _selectedLastYear;
-            }
-            set
-            {
-                _selectedLastYear = value;
-                OnPropertyChanged("SelectedLastYear");
-            }
-        }
-
-        private double _selectedRating;
-
-        public double SelectedRating
-        {
-            get
-            {
-                return _selectedRating;
-            }
-            set
-            {
-                _selectedRating = value;
-                OnPropertyChanged("SelectedRating");
-            }
+            List<Show> intermediate = await data.GetPopularShowsData();
+            _topPopShows = intermediate.Take(5).ToList<Show>();
         }
 
         //корректно ли использован метод????
         private async void GetGenres()
         {
-            GetData data = new GetData();
             _genres = await data.GetGenres();
         }
 
         private List<int> GetYearsList()
         {
             List<int> years = new List<int>();
-            for (int i = 1900; i <= 2017; i++)
+            for (int i = 2017; i >= 1900; i--)
             {
                 years.Add(i);
             }
             return years;
         }
+
+        #endregion
     }
 }

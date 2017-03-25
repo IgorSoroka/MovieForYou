@@ -9,32 +9,32 @@ namespace MovieForYou.Models
 {
     public class RepositoryGenres
     {
-        private static readonly IDictionary<int, string> _genres;
+        private static readonly IDictionary<string, string> _genres;
 
         static RepositoryGenres()
         {
-            _genres = new Dictionary<int, string>();
-            _genres.Add(1, "Боевик");
-            _genres.Add(2, "Приключения");
-            _genres.Add(3, "Мультфильм");
-            _genres.Add(4, "Комедия");
-            _genres.Add(5, "Криминал");
-            _genres.Add(6, "Документальный");
-            _genres.Add(7, "Драма");
-            _genres.Add(8, "Семейный");
-            _genres.Add(9, "Исторический");
-            _genres.Add(10, "Ужасы");
-            _genres.Add(11, "Мюзикл");
-            _genres.Add(12, "Фэнтэзи");
-            _genres.Add(13, "Мелодрама");
-            _genres.Add(14, "Научная-фантастика");
-            _genres.Add(15, "Телевизионный");
-            _genres.Add(16, "Триллер");
-            _genres.Add(17, "Военный");
-            _genres.Add(18, "Вестерн");
+            _genres = new Dictionary<string, string>();
+            _genres.Add("Action", "Боевик");
+            _genres.Add("Adventure", "Приключения");
+            _genres.Add("Animation", "Мультфильм");
+            _genres.Add("Comedy", "Комедия");
+            _genres.Add("Crime", "Криминал");
+            _genres.Add("Documentary", "Документальный");
+            _genres.Add("Drama", "Драма");
+            _genres.Add("Family", "Семейный");
+            _genres.Add("History", "Исторический");
+            _genres.Add("Horror", "Ужасы");
+            _genres.Add("Music", "Мюзикл");
+            _genres.Add("Mystery", "Фэнтэзи");
+            _genres.Add("Romance", "Мелодрама");
+            _genres.Add("Science Fiction", "Научная-фантастика");
+            _genres.Add("TV Movie", "Телевизионный");
+            _genres.Add("Thriller", "Триллер");
+            _genres.Add("War", "Военный");
+            _genres.Add("Western", "Вестерн");
         }
 
-        public static int GetId(string name)
+        public static string GetEnglishName(string name)
         {
             return _genres.FirstOrDefault(x => x.Value == name).Key;
         }

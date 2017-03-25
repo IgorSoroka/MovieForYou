@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <local:ImageUrlConverter x:Key="PathConverter"/>
     </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,15 +27,15 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <Label>Состав</Label>
-            <ListBox ItemsSource="{Binding Path = Crew}">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Crew}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <WrapPanel IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" MinWidth="100">
                             <Image Height="70" Width="70" Source="{Binding Profile, Converter={StaticResource PathConverter}}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
@@ -45,15 +46,15 @@
         </StackPanel>
         <StackPanel Grid.Row="2">
             <Label>В главных ролях</Label>
-            <ListBox ItemsSource="{Binding Path = Cast}" SelectedItem="{Binding Path=SelectedActor, Mode=TwoWay}">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Cast}" SelectedItem="{Binding Path=SelectedActor, Mode=TwoWay}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <WrapPanel IsItemsHost="True"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" MinWidth="100">
                             <Image Height="70" Width="70" Source="{Binding Profile, Converter={StaticResource PathConverter}}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
                             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
@@ -72,4 +73,5 @@
             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = HomePage}"/>
         </StackPanel>
     </Grid>
+    </ScrollViewer>
 </UserControl>

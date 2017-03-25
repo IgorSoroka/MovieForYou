@@ -9,50 +9,54 @@
     <UserControl.Resources>
         <local:ImageUrlConverter x:Key="PathConverter"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" DataContext="{Binding Path=DirectActor}">
-            <Image Width="150" Height="150" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
-            <StackPanel Orientation="Vertical">
-                <TextBlock FontSize="14" Text="{Binding Path = Name}"/>
-                <Label>Биография</Label>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Biography}"/>
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" DataContext="{Binding Path=DirectActor}">
+                <Image Width="150" Height="150" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontSize="14" Text="{Binding Path = Name}"/>
+                    <Label>Биография</Label>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True" MaxHeight="200">
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Biography}"/>
+                    </ScrollViewer>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="1" DataContext="{Binding Path=DirectActor}">
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
-            <Label FontSize="12">Об актере</Label>
-            <Label FontSize="10">Дата рождения</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = BirthDay}"/>
-            <Label FontSize="10">Дата смерти</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = DeathDay}"/>
-            <Label FontSize="10">Место рождения</Label>
-            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = BirthPlace}"/>
-        </StackPanel>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
-        <StackPanel Grid.Row="2">
-            <Label>Фильмография</Label>
-            <ListBox ItemsSource="{Binding Path = ActorMovies}" SelectedItem="{Binding Path=SelectedActorMovie, Mode=TwoWay}" >
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <Image Height="70" Width="70" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Title}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = ReleaseDate}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
-        </ScrollViewer>
-    </Grid>
+            <StackPanel Grid.Row="1" DataContext="{Binding Path=DirectActor}">
+                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
+                <Label FontSize="12">Об актере</Label>
+                <Label FontSize="10">Дата рождения</Label>
+                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = BirthDay, StringFormat=D, ConverterCulture=ru-RU}"/>
+                <Label FontSize="10">Место рождения</Label>
+                <TextBlock Margin="3" FontSize="12" Text="{Binding Path = BirthPlace}"/>
+            </StackPanel>
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label>Фильмография</Label>
+                    <ListBox ItemsSource="{Binding Path = ActorMovies}" SelectedItem="{Binding Path=SelectedActorMovie, Mode=TwoWay}" >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="3">
+                                    <Image Height="70" Width="70" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Title}"/>
+                                        <TextBlock Margin="3" FontSize="12" Text="{Binding Path = ReleaseDate, StringFormat=D, ConverterCulture=ru-RU}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    <!--</ScrollViewer>-->
 </UserControl>
