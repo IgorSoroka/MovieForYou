@@ -21,6 +21,7 @@ namespace MovieForYou.Views
         private ShowView _showView;
         private ActorView _actorView;
         private ActorsList _actorsList;
+        private Player _player;
 
         public MainWindow(IUnityContainer container, IRegionManager regionManager)
         {
@@ -40,6 +41,7 @@ namespace MovieForYou.Views
             _showView = _container.Resolve<ShowView>();
             _actorView = _container.Resolve<ActorView>();
             _actorsList = _container.Resolve<ActorsList>();
+            _player = _container.Resolve<Player>();
 
             _region = _regionManager.Regions["ContentRegion"];
 
@@ -51,6 +53,7 @@ namespace MovieForYou.Views
             _region.Add(_showView);
             _region.Add(_actorView);
             _region.Add(_actorsList);
+            _region.Add(_player);
         }
 
         private void RibbonButton2_Click(object sender, RoutedEventArgs e)
@@ -91,6 +94,16 @@ namespace MovieForYou.Views
         private void DetailedInfoActor_OnClick(object sender, RoutedEventArgs e)
         {
             _region.Activate(_actorView);
+        }
+
+        private void Player_Click(object sender, RoutedEventArgs e)
+        {
+            _region.Activate(_player);
+        }
+
+        private void PlayerPlay_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

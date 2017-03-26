@@ -156,7 +156,7 @@ namespace MovieForYou.Models
             return searchPeople.Results.ToList<Person>(); 
         }
 
-        public async Task<List<Movie>> GetSearchedMovies(string selectGenre, decimal selectedRating)
+        public async Task<List<Movie>> GetSearchedMovies(decimal selectedRating)
         {
             Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, null, null, null, selectedRating, null, null, 1, token);
             List<Movie> list = searchedMovies.Results.ToList<Movie>();
@@ -164,7 +164,7 @@ namespace MovieForYou.Models
         }
 
 
-        public async Task<List<Movie>> GetSearchedMovies(int? selectedYear, string selectGenre, decimal selectedRating)
+        public async Task<List<Movie>> GetSearchedMovies(int? selectedYear, decimal selectedRating)
         {
             Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, selectedYear, null, null, null, selectedRating, null, null, 1, token);
             List<Movie> list = (searchedMovies.Results.Where(item => item.ReleaseDate.Value.Year == selectedYear)).ToList<Movie>();
@@ -172,7 +172,7 @@ namespace MovieForYou.Models
             return list;
         }
 
-        public async Task<List<Movie>> GetSearchedMoviesFirstYear(int? selectedYear, string selectGenre, decimal selectedRating)
+        public async Task<List<Movie>> GetSearchedMoviesFirstYear(int? selectedYear, decimal selectedRating)
         {
             DateTime firstTime = new DateTime((int)selectedYear, 8, 18);
             Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, firstTime, null, null, selectedRating, null, null, 1, token);
@@ -181,7 +181,7 @@ namespace MovieForYou.Models
             return list;
         }
 
-        public async Task<List<Movie>> GetSearchedMoviesLastYear(int? selectedYear, string selectGenre, decimal selectedRating)
+        public async Task<List<Movie>> GetSearchedMoviesLastYear(int? selectedYear, decimal selectedRating)
         {
             DateTime lastTime = new DateTime((int)selectedYear, 8, 18);
             Movies searchedMovies = await first.Movies.DiscoverAsync(null, true, null, null, lastTime, null, selectedRating, null, null, 1, token);
@@ -190,7 +190,7 @@ namespace MovieForYou.Models
             return list;
         }
 
-        public async Task<List<Movie>> GetSearchedMovies(int? selectedFirstYear, int? selectedLastYear, string selectGenre, decimal selectedRating)
+        public async Task<List<Movie>> GetSearchedMovies(int? selectedFirstYear, int? selectedLastYear, decimal selectedRating)
         {
            DateTime date1 = new DateTime(2010, 8, 18);
            DateTime firstTime = new DateTime((int)selectedFirstYear, 8, 18);
@@ -206,6 +206,21 @@ namespace MovieForYou.Models
             //            select item).ToList<Movie>();
 
             //Movies movies = await first.Genres.GetMoviesAsync(1, "ru", true, 1, token);
+        }
+
+        public async Task<List<Movie>> GetListOfMoviesByGenre(int genre)
+        {
+            Movies searched = await first.Genres.GetMoviesAsync(genre, "ru", true, 1, token);
+            List<Movie> list = searched.Results.ToList<Movie>();
+
+            return list;
+        }
+
+        public async Task<Video> GetTrailler()
+        {
+            IEnumerable<Video> videos = await first.Movies.GetVideosAsync(263115, "ru", token);
+
+            return videos.FirstOrDefault();
         }
     }
 }

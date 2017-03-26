@@ -1,48 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieForYou.Models
 {
     public class RepositoryGenres
     {
-        private static readonly IDictionary<string, string> _genres;
+        private static readonly IDictionary<int, string> Genres;
 
         static RepositoryGenres()
         {
-            _genres = new Dictionary<string, string>();
-            _genres.Add("Action", "Боевик");
-            _genres.Add("Adventure", "Приключения");
-            _genres.Add("Animation", "Мультфильм");
-            _genres.Add("Comedy", "Комедия");
-            _genres.Add("Crime", "Криминал");
-            _genres.Add("Documentary", "Документальный");
-            _genres.Add("Drama", "Драма");
-            _genres.Add("Family", "Семейный");
-            _genres.Add("History", "Исторический");
-            _genres.Add("Horror", "Ужасы");
-            _genres.Add("Music", "Мюзикл");
-            _genres.Add("Mystery", "Фэнтэзи");
-            _genres.Add("Romance", "Мелодрама");
-            _genres.Add("Science Fiction", "Научная-фантастика");
-            _genres.Add("TV Movie", "Телевизионный");
-            _genres.Add("Thriller", "Триллер");
-            _genres.Add("War", "Военный");
-            _genres.Add("Western", "Вестерн");
+            Genres = new Dictionary<int, string>
+            {
+                {28, "Боевик"},
+                {12, "Приключения"},
+                {16, "Мультфильм"},
+                {35, "Комедия"},
+                {80, "Криминал"},
+                {99, "Документальный"},
+                {18, "Драма"},
+                {10751, "Семейный"},
+                {36, "Исторический"},
+                {27, "Ужасы"},
+                {10402, "Мюзикл"},
+                {14, "Фэнтэзи"},
+                {10749, "Мелодрама"},
+                {878, "Научная-фантастика"},
+                {10770, "Телевизионный"},
+                {53, "Триллер"},
+                {10752, "Военный"},
+                {37, "Вестерн"},
+                {9648, "Мистика"}
+            };
         }
 
-        public static string GetEnglishName(string name)
+        public static int GetGenreId(string name)
         {
-            return _genres.FirstOrDefault(x => x.Value == name).Key;
+            return Genres.FirstOrDefault(x => x.Value == name).Key;
         }
 
         public static List<string> GetNames()
         {
             List<string> names = new List<string>();
-            foreach (var item in _genres)
+            foreach (var item in Genres)
             {
                 names.Add(item.Value);
             }

@@ -7,7 +7,7 @@
         xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="900">
+        Title="MainWindow" Height="700" Width="800">
     <Window.DataContext>
         <local:MovieForYouViewModel/>
     </Window.DataContext>
@@ -75,13 +75,21 @@
         </ribbon:Ribbon>
 
         <ContentControl Grid.Row="1" prism:RegionManager.RegionName="ContentRegion" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" />
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подр. инф. о фильме</Button>
-            <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подр. инф. о сериале</Button>
-            <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подр. инф. об актере</Button>
-            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = MovieNameSearch}">Поиск фильма</Button>
-            <Button FontSize="16" Click="RibbonButton6_Click" Command="{Binding Path = ActorNameSearch}">Поиск актера</Button>
-            <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = Search}">Поиск</Button>
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Button FontSize="16" x:Name="DetailedInfoMovie" Command="{Binding Path=ShowDirectMovie}" Click="DetailedInfo_OnClick">Подрробно о фильме
+                </Button>
+                <Button FontSize="16" x:Name="DetailedInfoShow" Command="{Binding Path=ShowDirectShow}" Click="DetailedInfoShow_OnClick">Подробно о сериале</Button>
+                <Button FontSize="16" x:Name="DetailedInfoActor" Command="{Binding Path=ShowDirectActor}" Click="DetailedInfoActor_OnClick">Подробно об актере</Button>
+                <Button FontSize="16" Click="Player_Click" Command="{Binding Path = VideoPlay}">Тест-плеер</Button>
+                <Button FontSize="16" Click="PlayerPlay_Click">Проиграть</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = MovieNameSearch}">Поиск фильма(имя)</Button>
+                <Button FontSize="16" Click="RibbonButton6_Click" Command="{Binding Path = ActorNameSearch}">Поиск актера(имя)</Button>
+                <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = GenreSearch}">Поиск фильма(жанр)</Button>
+                <Button FontSize="16" Click="RibbonButton2_Click" Command="{Binding Path = Search}">Поиск фильма(год-рейтинг)</Button>
+            </StackPanel>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Orientation="Vertical">
             <ListBox ItemsSource="{Binding Path=TopPopMovies}" SelectedItem="{Binding Path=SelectedMovie, Mode=TwoWay}">

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MovieForYou.Models;
 using System.Net.TMDb;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace MovieForYou
 {
@@ -488,7 +490,10 @@ namespace MovieForYou
             Movies = null;
             Movies = await data.GetPopularMoviesData();//сделать метод статическим
 
-            GetData data1 = new GetData();
+            //DbWork newDbWork = new DbWork();
+            //newDbWork.AddData();
+
+            //GetData data1 = new GetData();
         }
 
         private RelayCommand _showDirectMovie;
@@ -734,6 +739,26 @@ namespace MovieForYou
             SelectedSearchedActor = null;
         }
 
+        private RelayCommand _genreSearch;
+
+        public RelayCommand GenreSearch
+        {
+            get
+            {
+                if (_genreSearch == null)
+                    _genreSearch = new RelayCommand(ExecuteGenreSearch);
+                return _genreSearch;
+            }
+        }
+
+        private async void ExecuteGenreSearch(object param)
+        {
+            Movies = null;
+            int genre = RepositoryGenres.GetGenreId(SelectGenre);
+            Movies = await data.GetListOfMoviesByGenre(genre);
+            SelectGenre = null;
+        }
+
         private RelayCommand _search;
 
         public RelayCommand Search
@@ -749,20 +774,19 @@ namespace MovieForYou
         private async void ExecuteSearch(object param)
         {
             Movies = null;
-            string genre = RepositoryGenres.GetEnglishName(SelectGenre);
-
+            
             if (SelectedFirstYear == null && SelectedLastYear == null && SelectedYear == null)
-                Movies = await data.GetSearchedMovies(genre, SelectedRating);
+                Movies = await data.GetSearchedMovies(SelectedRating);
             else if (SelectedYear != null)
-                Movies = await data.GetSearchedMovies(SelectedYear, genre, SelectedRating);
+                Movies = await data.GetSearchedMovies(SelectedYear, SelectedRating);
             else if (SelectedFirstYear != null || SelectedLastYear != null)
             {
                 if(SelectedFirstYear != null && SelectedLastYear != null)
-                    Movies = await data.GetSearchedMovies(SelectedFirstYear, SelectedLastYear, genre, SelectedRating);
+                    Movies = await data.GetSearchedMovies(SelectedFirstYear, SelectedLastYear, SelectedRating);
                 else if (SelectedFirstYear != null && SelectedLastYear == null)
-                    Movies = await data.GetSearchedMoviesFirstYear(SelectedFirstYear, genre, SelectedRating);
+                    Movies = await data.GetSearchedMoviesFirstYear(SelectedFirstYear, SelectedRating);
                 else if (SelectedFirstYear == null && SelectedLastYear != null)
-                    Movies = await data.GetSearchedMoviesLastYear(SelectedLastYear, genre, SelectedRating);
+                    Movies = await data.GetSearchedMoviesLastYear(SelectedLastYear, SelectedRating);
             }
 
             SelectedFirstYear = null;
@@ -821,5 +845,40 @@ namespace MovieForYou
         }
 
         #endregion
+
+        private Uri _filmUri;
+
+        public Uri FilmUri
+        {
+            get
+            {
+                return _filmUri;
+            }
+        }
+
+        private RelayCommand _videoPlay;
+
+        public RelayCommand VideoPlay
+        {
+            get
+            {
+                if (_videoPlay == null)
+                    _videoPlay = new RelayCommand(ExecuteVideoPlay);
+                return _videoPlay;
+            }
+        }
+
+        private async void ExecuteVideoPlay(object param)
+        {
+            Video video = await data.GetTrailler();
+            string urlPath = video.Key;
+            
+            //string path = String.Concat(@"http://image.tmdb.org/t/p/original", urlPath);
+
+            string path = @"https://www.youtube.com/watch?v=g6LjfKf995Y";
+            Uri source = new Uri(path, UriKind.RelativeOrAbsolute);
+
+            _filmUri = source;
+        }
     }
 }
