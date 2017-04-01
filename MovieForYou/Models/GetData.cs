@@ -85,7 +85,13 @@ namespace MovieForYou.Models
         {
             IEnumerable<PersonCredit> movies = await first.People.GetCreditsAsync(id, "ru", (DataInfoType)1, token);
             List<PersonCredit> actorMovies = movies.ToList<PersonCredit>();
-            return actorMovies;
+
+            List<PersonCredit> moviesTest = (from item in actorMovies
+                                                let itemReleaseDate = item.ReleaseDate
+                                                where itemReleaseDate != null
+                                                orderby itemReleaseDate.Value descending 
+                                                select item).ToList();
+            return moviesTest;
         }
 
         public async Task<List<string>> GetGenres()

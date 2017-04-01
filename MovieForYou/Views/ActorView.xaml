@@ -10,23 +10,30 @@
         <local:ImageUrlConverter x:Key="PathConverter"/>
     </UserControl.Resources>
     <!--<ScrollViewer VerticalScrollBarVisibility="Auto">-->
-        <Grid>
+    <Grid Background="#4C000000">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" DataContext="{Binding Path=DirectActor}">
-                <Image Width="150" Height="150" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
-                <StackPanel Orientation="Vertical">
+        <Border BorderThickness="1" BorderBrush="Black">
+            <Grid DataContext="{Binding Path=DirectActor}" MinHeight="150" MaxHeight="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
+                <StackPanel Grid.Column="1" Margin="3" Orientation="Vertical">
                     <TextBlock FontSize="14" Text="{Binding Path = Name}"/>
                     <Label>Биография</Label>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" CanContentScroll="True" MaxHeight="200">
-                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Biography}"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True" MinHeight="130" MaxHeight="250" >
+                        <TextBlock Margin="3" TextWrapping="Wrap" FontSize="14" Text="{Binding Path = Biography}"/>
                     </ScrollViewer>
                 </StackPanel>
-            </StackPanel>
-            <StackPanel Grid.Row="1" DataContext="{Binding Path=DirectActor}">
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+            <StackPanel  DataContext="{Binding Path=DirectActor}">
                 <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
                 <Label FontSize="12">Об актере</Label>
                 <Label FontSize="10">Дата рождения</Label>
@@ -34,11 +41,30 @@
                 <Label FontSize="10">Место рождения</Label>
                 <TextBlock Margin="3" FontSize="12" Text="{Binding Path = BirthPlace}"/>
             </StackPanel>
+        </Border>   
+            
             <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
                     <Label>Фильмография</Label>
                     <ListBox ItemsSource="{Binding Path = ActorMovies}" SelectedItem="{Binding Path=SelectedActorMovie, Mode=TwoWay}" >
-                        <ListBox.ItemsPanel>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Background" Value="#4C000000"/>
+                            <Setter Property="Foreground" Value="#FF000000"/>
+                            <Setter Property="Margin" Value="1"/>
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Vertical"/>
                             </ItemsPanelTemplate>
@@ -50,7 +76,8 @@
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Title}"/>
                                         <TextBlock Margin="3" FontSize="12" Text="{Binding Path = ReleaseDate, StringFormat=D, ConverterCulture=ru-RU}"/>
-                                    </StackPanel>
+                                        <Button FontSize="12" HorizontalAlignment="Left" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" Width="150" ></Button>
+                                </StackPanel>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

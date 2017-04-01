@@ -9,13 +9,16 @@
     <UserControl.Resources>
         <local:ImageUrlConverter x:Key="PathConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="#4C000000">
         <ListBox ItemsSource="{Binding Path=Shows}" SelectedItem="{Binding Path=SelectedShow, Mode=TwoWay}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Background" Value="LightSteelBlue"/>
-                    <Setter Property="Margin" Value="5"/>
-                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Background" Value="#4C000000"/>
+                    <Setter Property="Foreground" Value="#FF000000"></Setter>
+                    <Setter Property="Margin" Value="1"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="White"/>
@@ -27,7 +30,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
+                    <StackPanel Orientation="Horizontal"  Margin="5">
                         <Image Source="{Binding Poster, Converter={StaticResource PathConverter}}" Height="100" Width="100"/>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="{Binding Path = Name}" Margin="3" FontSize="14"/>
@@ -39,7 +42,7 @@
                                     <ColumnDefinition Width="200"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Path = VoteAverage}" Margin="3" FontSize="14"/>
-                                <!--<Button Grid.Column="1" FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectMovie}" ></Button>-->
+                                <Button Grid.Column="1" FontSize="12" Content="Подробная информация" Command="{Binding Path=ShowDirectShow}" ></Button>
                             </Grid>
                         </StackPanel>
                     </StackPanel>

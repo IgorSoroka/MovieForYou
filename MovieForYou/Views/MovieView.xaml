@@ -10,54 +10,94 @@
         <local:ImageUrlConverter x:Key="PathConverter"/>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Visible">
-    <Grid>
+        <Grid Background="#4C000000">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>            
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" DataContext="{Binding Path=DirectMovie}">
-            <Image Width="150" Height="150" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
-            <StackPanel Orientation="Vertical">
-                <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
-                <Label>Сюжет</Label>
-                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Width="400" FontSize="14" Text="{Binding Path = Overview}"/>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Grid.Row="1">
+            <Grid DataContext="{Binding Path=DirectMovie}" MinHeight="150" MaxHeight="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="3" Source="{Binding Poster, Converter={StaticResource PathConverter}}"/>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <TextBlock FontSize="14" Text="{Binding Path = Title}"/>
+                    <Label>Сюжет</Label>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True" MinHeight="130" MaxHeight="250" >
+                        <TextBlock TextWrapping="Wrap" Margin="3" FontSize="14" Text="{Binding Path = Overview}"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1">
             <Label>Состав</Label>
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Crew}">
-                <ListBox.ItemsPanel>
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Crew}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Background" Value="#4C000000"/>
+                            <Setter Property="Foreground" Value="#FF000000"/>
+                            <Setter Property="Margin" Value="1"/>
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True"/>
+                            <WrapPanel IsItemsHost="True" Background="#4C000000"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" MinWidth="100">
+                        <StackPanel Orientation="Vertical" MinWidth="150">
                             <Image Height="70" Width="70" Source="{Binding Profile, Converter={StaticResource PathConverter}}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Job}"/>
+                            <TextBlock Margin="3" TextAlignment="Center" FontSize="12" Text="{Binding Path = Name}"/>
+                            <TextBlock Margin="3" TextAlignment="Center" FontSize="12" Text="{Binding Path = Job}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2">
             <Label>В главных ролях</Label>
-            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Cast}" SelectedItem="{Binding Path=SelectedActor, Mode=TwoWay}">
-                <ListBox.ItemsPanel>
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Path = Cast}" SelectedItem="{Binding Path=SelectedActor, Mode=TwoWay}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Background" Value="#4C000000"/>
+                            <Setter Property="Foreground" Value="#FF000000"></Setter>
+                            <Setter Property="Margin" Value="1"/>
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel IsItemsHost="True"/>
+                            <WrapPanel IsItemsHost="True" Background="#4C000000"/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" MinWidth="100">
+                        <StackPanel Orientation="Vertical" MinWidth="150">
                             <Image Height="70" Width="70" Source="{Binding Profile, Converter={StaticResource PathConverter}}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Name}"/>
-                            <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Character}"/>
+                            <TextBlock Margin="3" TextAlignment="Center" FontSize="12" Text="{Binding Path = Name}"/>
+                            <TextBlock Margin="3" TextAlignment="Center" FontSize="12" Text="{Binding Path = Character}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
