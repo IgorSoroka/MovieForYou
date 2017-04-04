@@ -111,6 +111,7 @@
             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = Budget}"/>
             <Label FontSize="10">Домашняя страница</Label>
             <TextBlock Margin="3" FontSize="12" Text="{Binding Path = HomePage}"/>
+                <Button >Смотреть трейлер</Button>
         </StackPanel>
     </Grid>
     </ScrollViewer>

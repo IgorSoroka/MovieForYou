@@ -222,10 +222,9 @@ namespace MovieForYou.Models
             return list;
         }
 
-        public async Task<Video> GetTrailler()
+        public async Task<Video> GetTrailler(int id)
         {
-            IEnumerable<Video> videos = await first.Movies.GetVideosAsync(263115, "ru", token);
-
+            IEnumerable<Video> videos = await first.Movies.GetVideosAsync(id, "ru", token);
             return videos.FirstOrDefault();
         }
     }

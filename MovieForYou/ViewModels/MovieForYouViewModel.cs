@@ -503,7 +503,7 @@ namespace MovieForYou
             get
             {
                 if (_showDirectMovie == null)
-                    _showDirectMovie = new RelayCommand(ExecuteShowDirectMovie);
+                    _showDirectMovie = new RelayCommand(ExecuteShowDirectMovie, CanExecuteShowDirectMovie);
                 return _showDirectMovie;
             }
         }
@@ -520,6 +520,12 @@ namespace MovieForYou
                 Crew = (fullDataMovie.Credits.Crew).Take(20).ToList<MediaCrew>();
                 Cast = (fullDataMovie.Credits.Cast).Take(10).ToList<MediaCast>();
                 DirectMovie = fullDataMovie;
+
+                Video video = await data.GetTrailler(SelectedMovie.Id);
+                if (video != null)
+                {
+                    VideoURL = video.Key;
+                }
             }
 
             if (SelectedActorMovie != null)
@@ -528,10 +534,24 @@ namespace MovieForYou
                 Crew = (fullDataMovie.Credits.Crew).Take(20).ToList<MediaCrew>();
                 Cast = (fullDataMovie.Credits.Cast).Take(10).ToList<MediaCast>();
                 DirectMovie = fullDataMovie;
+
+                Video video = await data.GetTrailler(SelectedMovie.Id);
+                if (video != null)
+                {
+                    VideoURL = video.Key;
+                }
             }
 
             SelectedMovie = null;
             SelectedActorMovie = null;
+        }
+
+        private bool CanExecuteShowDirectMovie(object param)
+        {
+            if (SelectedActorMovie == null && SelectedMovie == null)
+                return false;
+            else
+                return true;
         }
 
         private RelayCommand _showNowPlayingFilms;
@@ -653,7 +673,7 @@ namespace MovieForYou
             get
             {
                 if (_showDirectShow == null)
-                    _showDirectShow = new RelayCommand(ExecuteShowDirectShow);
+                    _showDirectShow = new RelayCommand(ExecuteShowDirectShow, CanExecuteShowDirectShow);
                 return _showDirectShow;
             }
         }
@@ -667,6 +687,14 @@ namespace MovieForYou
             Crew = (fullDataShow.Credits.Crew).Take(20).ToList<MediaCrew>();
             Cast = (fullDataShow.Credits.Cast).Take(10).ToList<MediaCast>();
             DirectShow = fullDataShow;
+        }
+
+        private bool CanExecuteShowDirectShow(object param)
+        {
+            if (SelectedShow == null)
+                return false;
+            else
+                return true;
         }
 
         #endregion
@@ -714,7 +742,7 @@ namespace MovieForYou
             get
             {
                 if (_showDirectActor == null)
-                    _showDirectActor = new RelayCommand(ExecuteShowDirectActor);
+                    _showDirectActor = new RelayCommand(ExecuteShowDirectActor, CanExecuteShowDirectActor);
                 return _showDirectActor;
             }
         }
@@ -737,6 +765,14 @@ namespace MovieForYou
 
             SelectedActor = null;
             SelectedSearchedActor = null;
+        }
+
+        private bool CanExecuteShowDirectActor(object param)
+        {
+            if (SelectedActor == null && SelectedSearchedActor == null)
+                return false;
+            else
+                return true;
         }
 
         private RelayCommand _genreSearch;
@@ -863,22 +899,38 @@ namespace MovieForYou
             get
             {
                 if (_videoPlay == null)
-                    _videoPlay = new RelayCommand(ExecuteVideoPlay);
+                    _videoPlay = new RelayCommand(ExecuteVideoPlay, CanExecuteVideoPlay);
                 return _videoPlay;
             }
         }
-
+        //Дописать метод под МВВМ
         private async void ExecuteVideoPlay(object param)
         {
-            Video video = await data.GetTrailler();
-            string urlPath = video.Key;
             
-            //string path = String.Concat(@"http://image.tmdb.org/t/p/original", urlPath);
-
-            string path = @"https://www.youtube.com/watch?v=g6LjfKf995Y";
-            Uri source = new Uri(path, UriKind.RelativeOrAbsolute);
-
-            _filmUri = source;
         }
+
+        private bool CanExecuteVideoPlay(object param)
+        {
+            if (VideoURL == null)
+                return false;
+            else
+                return true;
+        }
+
+        private string _videoURL;
+
+        public string VideoURL
+        {
+            get
+            {
+                return _videoURL;
+            }
+            set
+            {
+                _videoURL = value;
+                OnPropertyChanged("VideoURL");
+            }
+        }
+
     }
 }

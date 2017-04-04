@@ -41,7 +41,7 @@ namespace MovieForYou.Views
             _showView = _container.Resolve<ShowView>();
             _actorView = _container.Resolve<ActorView>();
             _actorsList = _container.Resolve<ActorsList>();
-            _player = _container.Resolve<Player>();
+            //_player = _container.Resolve<Player>();
 
             _region = _regionManager.Regions["ContentRegion"];
 
@@ -53,7 +53,7 @@ namespace MovieForYou.Views
             _region.Add(_showView);
             _region.Add(_actorView);
             _region.Add(_actorsList);
-            _region.Add(_player);
+            //_region.Add(_player);
         }
 
         private void RibbonButton2_Click(object sender, RoutedEventArgs e)
@@ -98,12 +98,10 @@ namespace MovieForYou.Views
 
         private void Player_Click(object sender, RoutedEventArgs e)
         {
+            string path = TraillerShow.Tag.ToString();
+            _player = _container.Resolve<Player>(new ParameterOverride("str", path));
+            _region.Add(_player);
             _region.Activate(_player);
-        }
-
-        private void PlayerPlay_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }
